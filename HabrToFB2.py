@@ -16,7 +16,7 @@ def get_page_title(s):
 	page_title = page_title[len('<span class="post_title">'): -len('</span>')]
 	return page_title
 
-page_address = input()
+page_address = input('Введите URL:')
 s = urlopen(page_address).read().decode()
 page_title = get_page_title(s)
 page_content = get_page_content(s)
