@@ -21,7 +21,6 @@ s = urlopen(page_address).read().decode()
 page_title = get_page_title(s)
 page_content = get_page_content(s)
 images = re.findall(r'<img.*?>', page_content)
-print(images)
 images_names = list(map(lambda s: re.findall(r'src=".*?"', s)[0][len('src="') : -1], images))
 images = []
 for i in images_names:
