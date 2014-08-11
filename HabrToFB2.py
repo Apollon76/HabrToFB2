@@ -106,15 +106,15 @@ def get_file_name(s):
 	return s
 
 page_address = input('Введите URL:')
-s = urlopen(page_address).read().decode()
-#s = open('input.txt').read()
+#s = urlopen(page_address).read().decode()
+s = open('input.txt').read()
 page_title = get_page_title(s)
 file_name = get_file_name(page_title)
 page_content = get_page_content(s)
 images = re.findall(r'<img.*?>', page_content)
 images_names = list(map(lambda s: re.findall(r'src=".*?"', s)[0][len('src="') : -1], images))
 images = []
-images_names = list(map(lambda s: s if s[:5] == 'http:' else 'http:' + s, images_names))
+images_names = list(map(lambda s: s if s[:4] == 'http' else 'http:' + s, images_names))
 for i in images_names:
 	images += [str(base64.b64encode(urlopen(i).read()))[2 : -1]]
 page_content = re.sub(r'<img src=".*?>', '<image l:href="#img' + chr(0) + '.jpg"/>', page_content)
