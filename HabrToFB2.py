@@ -1,4 +1,4 @@
-import re, sys, base64
+import re, sys, base64, os
 from urllib.request import *
 
 def get_page_content(s):
@@ -91,8 +91,8 @@ def transliterate(string):
 			char = lower_case_letters[char]
 		elif char in capital_letters.keys():
 			char = capital_letters[char]
-			if len(string) > index+1:
-				if string[index+1] not in lower_case_letters.keys():
+			if len(string) > index + 1:
+				if string[index + 1] not in lower_case_letters.keys():
 					char = char.upper()
 			else:
 				char = char.upper()
@@ -100,8 +100,8 @@ def transliterate(string):
 	return translit_string
 
 def get_file_name(s):
-	letters = 'qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапролджэячсмитьбю'
-	s = ''.join(list(map(lambda x: x if x.lower() in letters else ' ', s)))
+	symbols = 'qwertyuiopasdfghjklzxcvbnmйцукенгшщзхъфывапролджэячсмитьбю0123456789'
+	s = ''.join(list(map(lambda x: x if x.lower() in symbols else ' ', s)))
 	s = transliterate(s)
 	return s
 
@@ -131,7 +131,7 @@ for i in page_content:
 page_content = s1
 page_content = page_content.split('\n')
 page_content = list(map(lambda s: '<p>' + s + '</p>', page_content))
-sys.stdout = open(file_name + '.fb2', 'w')
+sys.stdout = open('output-files/' + file_name + '.fb2', 'w')
 elements = ['<?xml version="1.0" encoding="utf-8"?>',
 	'<FictionBook xmlns="http://www.gribuser.ru/xml/fictionbook/2.0" xmlns:l="http://www.w3.org/1999/xlink">',
 	'	<description>',
@@ -157,3 +157,4 @@ for num, i in enumerate(images):
 elements += ['</FictionBook>']
 for i in elements:
 	print(i)
+os.system('aplay notification.wav')
